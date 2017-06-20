@@ -15,7 +15,10 @@
 	  <div class="panel-heading">Login</div>
 	  <div class="panel-body">
 	  	<div id="messages"></div>
-	    <form action="<?php echo base_url()?>users/login_act" method="post">
+	  	<?php echo $this->session->flashdata('pesan'); ?>
+	    <!-- <form action="<?php echo base_url()?>users/login_act" method="post"> -->
+	    <?php echo form_open('users/login_act');?>
+	    <?php echo validation_errors(); ?>
 			  <div class="form-group">
 			    <label for="username">Username</label>
 			    <input type="text" class="form-control" id="username" name="username" placeholder="Username" />
@@ -25,7 +28,7 @@
 			    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
 			  </div>			  
 			  <input type="submit" class="btn btn-default" value="Submit">
-			</form>
+		<?php echo  form_close();?>
 	  </div>
 	  <div class="panel-footer">
 	  	No Account!!! <a href="<?php echo base_url()?>users/register">Sign Up</a>

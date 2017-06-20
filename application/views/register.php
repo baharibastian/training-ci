@@ -16,7 +16,9 @@
 			<div class="panel-body">
 				<div id="messages"></div>
 				<?php echo $this->session->flashdata('pesan'); ?>
-				<form action="<?php echo base_url()?>users/register_act" method="post" id="registerForm">
+				<!-- <form action="<?php echo base_url()?>users/register_act" method="post" id="registerForm"> -->
+				<?php echo form_open('users/register_act');?>
+				<?php echo validation_errors(); ?>
 					<div class="form-group">
 						<label for="username">Username</label>
 						<input type="text" class="form-control" id="username" name="username" placeholder="Username">
@@ -38,7 +40,7 @@
 						<input type="text" class="form-control" id="contact" name="lastname" placeholder="Contact">
 					</div>			  
 					<button type="submit" class="btn btn-default">Submit</button>
-				</form>
+				<?php echo  form_close();?>
 			</div>
 			<div class="panel-footer">
 				Have Account <a href="../">Login</a>
