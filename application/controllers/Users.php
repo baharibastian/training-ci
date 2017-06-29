@@ -30,17 +30,28 @@ class Users extends CI_Controller {
 		if($this->form_validation->run() == TRUE) {
 			$username=$this->input->post('username');
 			$password=$this->input->post('password');
-			$query=$this->db->query("select * from users where username='$username' and password='$password'");
+			// $query=$this->db->query("select * from users where username='$username' and password='$password'");
+			$this->db->select('*');
+			$this->db->from('users');
+			$this->db->where(array('username' => $username, 'password' => $password));
+			$query = $this->db->get();
 			if ($query->num_rows() > 0) {
-				foreach ($query->result() as $data) {
-					$data=array(
-						'id'=>$data->id,
-						'username'=>$data->username,
-						'password'=>$data->password
-						);
-					$this->session->set_userdata($data);	
-					redirect('shorten' ,$data);		
-				}
+				// foreach ($query->result() as $data) {
+				// 	$data=array(
+				// 		'id'=>$data->id,
+				// 		'username'=>$data->username,
+				// 		'password'=>$data->password
+				// 		);
+				// 	$this->session->set_userdata($data);	
+				// 	redirect('shorten' ,$data);		
+				// }
+				$data = array (
+					'id' 		=> $query->row()->id,
+					'username'	=> $query->row()->username,
+					'password'	=> $query->row()->password
+					);
+				$this->session->set_userdata($data);
+				redirect('shorten', $data);
 			} else {
 				$this->session->set_flashdata("pesan", "<div class=\"alert alert-warning\" id=\"alert\"><i class=\"glyphicon glyphicon-ok\"></i> Username dan Password anda salah</div>");
 				redirect('users/login');
@@ -68,18 +79,18 @@ class Users extends CI_Controller {
 		$this->form_validation->set_message('max_length', '%s: the maximum of characters is %s');
 
 		if($this->form_validation->run() == true) {
-			$username				= addslashes($this->input->post('username'));
-			$password				= addslashes($this->input->post('password'));
-			$email					= addslashes($this->input->post('email'));	
-			$firstname   			= addslashes($this->input->post('firstname'));
-			$lastname				= addslashes($this->input->post('lastname'));
+			$username				= $this->input->post('username');
+			$password				= $this->input->post('password');
+			$email					= $this->input->post('email');	
+			$firstname   			= $this->input->post('firstname');
+			$lastname				= $this->input->post('lastname');
 
 			$data = array(
 				'id'			=> null,
 				'username'		=> $username,
 				'password'		=> $password,
 				'email'			=> $email,
-				'first_name'		=> $firstname,
+				'first_name'	=> $firstname,
 				'last_name'		=> $lastname,
 				'created'		=> date('Y-m-d H:i:s')
 				);
